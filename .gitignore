@@ -1,0 +1,27 @@
+node_modules
+public/node_modules
+public/.pnp
+public/.pnp.js
+.env
+
+# Hardhat files
+/cache
+/artifacts
+
+# misc
+public/.DS_Store
+public/.env.local
+public/.env.development.local
+public/.env.test.local
+public/.env.production.local
+public/npm-debug.log*
+public/yarn-debug.log*
+public/yarn-error.log*
+
+# TypeChain files
+/typechain
+/typechain-types
+
+# solidity-coverage files
+/coverage
+/coverage.json
