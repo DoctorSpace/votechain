@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ethers, formatEther } from "ethers";
 import CreateVotingBlock from "../CreateVotingBlock/CreateVotingBlock";
+import WhitelistAddressBlock from "../WhitelistAddressBlock/WhitelistAddressBlock";
 
 function App() {
   // const [nonce, setNonce] = useState(-1);
@@ -35,12 +36,11 @@ function App() {
     getData().catch(console.error);
   }, [wallet]);
 
-
   return (
     <div className="App">
       <h1>{balance}</h1>
       <CreateVotingBlock wallet={wallet} />
-
+      <WhitelistAddressBlock wallet={wallet} />
     </div>
   );
 }

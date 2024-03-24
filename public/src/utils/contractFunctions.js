@@ -19,6 +19,18 @@ export const contractFunctions = {
     }
   },
 
+  addWhitelistAddress: async function (contract, wallet) {
+    try {
+      await contract.methods
+        .addWhitelistAddress(wallet)
+        .send({ from: wallet });
+
+      console.log("Voting created successfully!");
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
   getPoolName: function () {
     console.log("getPoolName");
   },

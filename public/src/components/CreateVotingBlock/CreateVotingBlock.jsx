@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { createVotingABI } from "../../abi/abi";
 import { initContractX } from "../../utils/initContractX";
 import { contractFunctions } from "../../utils/contractFunctions";
 
@@ -12,7 +11,7 @@ const CreateVotingBlock = ({ wallet }) => {
   const [contract, setContract] = useState(null);
 
   const initContract = async () => {
-    setContract(await initContractX(createVotingABI, wallet));
+    setContract(await initContractX(wallet));
   };
 
   const createVoting = async () => {
