@@ -1,22 +1,18 @@
 import React, { useState } from "react";
 import { initContractX } from "../../utils/initContractX";
 import { contractFunctions } from "../../utils/contractFunctions";
+import { useSelector } from "react-redux";
 
 const WhitelistAddressBlock = ({ wallet }) => {
   const [address, setAddress] = useState("");
-  const [contract, setContract] = useState(null);
+  const contract = useSelector((state) => state.contract.data)
 
   // TODO
   // Проверка если ввели больше одно адресса, добавить больше
 
-
   const addWhiteList = async () => {
-
     console.log(wallet);
-    // setContract(await initContractX('0x90F79bf6EB2c4f870365E785982E1f101E93b906'));
-    setContract(await initContractX(wallet));
-
-    await contractFunctions.addWhitelistAddress(contract, wallet)
+    await contractFunctions.addWhitelistAddress(contract, wallet);
   };
 
   return (

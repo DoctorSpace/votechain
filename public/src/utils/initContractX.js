@@ -8,11 +8,9 @@ export const initContractX = async (wallet) => {
     await window.ethereum.enable();
 
     // Адрес контракта и его ABI
-    const contractInstance = new web3Instance.eth.Contract(
-      votingABI,
-      wallet
-    );
+    const contractInstance = new web3Instance.eth.Contract(votingABI, wallet);
 
     return contractInstance
+    // TODO: добавить в redux
   }
 };

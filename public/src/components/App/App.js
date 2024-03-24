@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { ethers, formatEther } from "ethers";
 import CreateVotingBlock from "../CreateVotingBlock/CreateVotingBlock";
 import WhitelistAddressBlock from "../WhitelistAddressBlock/WhitelistAddressBlock";
+import OptionsBlock from "../OptionsBlock/OptionsBlock";
+
 
 function App() {
   // const [nonce, setNonce] = useState(-1);
@@ -20,6 +22,7 @@ function App() {
   }
 
   useEffect(() => {
+
     const connectWallet = async () => {
       signer = await provider.getSigner();
       setWallet(signer.address);
@@ -41,6 +44,7 @@ function App() {
       <h1>{balance}</h1>
       <CreateVotingBlock wallet={wallet} />
       <WhitelistAddressBlock wallet={wallet} />
+      <OptionsBlock wallet={wallet}/>
     </div>
   );
 }

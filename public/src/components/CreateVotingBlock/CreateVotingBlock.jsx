@@ -2,16 +2,22 @@ import React, { useState } from "react";
 import { initContractX } from "../../utils/initContractX";
 import { contractFunctions } from "../../utils/contractFunctions";
 
+import { setContactData } from '../../store/features/contractSlice';
+import { useSelector, useDispatch } from "react-redux";
+
+
 const CreateVotingBlock = ({ wallet }) => {
   const [question, setQuestion] = useState("");
   const [name, setName] = useState("");
   const [option1, setOption1] = useState("");
   const [option2, setOption2] = useState("");
   const [option3, setOption3] = useState("");
-  const [contract, setContract] = useState(null);
+
+  const dispatch = useDispatch()
+  const contract = useSelector((state) => state.contract.data)
 
   const initContract = async () => {
-    setContract(await initContractX(wallet));
+    dispatch(setContactData(await initContractX(wallet)));
   };
 
   const createVoting = async () => {
