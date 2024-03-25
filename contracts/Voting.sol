@@ -88,6 +88,10 @@ contract Voting {
         polls[pollName].count3];
     }
 
+    function myFunction() public view returns(uint256, string memory) {
+        return (23456, "Hello!%");
+    }
+
     function doesPollExist (string memory pollName) private view returns (bool) {
     if (polls[pollName].exists) {
         return true;

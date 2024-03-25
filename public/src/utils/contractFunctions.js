@@ -1,8 +1,3 @@
-
-
-
-
-
 export const contractFunctions = {
   createVoting: async function (
     contract,
@@ -24,9 +19,18 @@ export const contractFunctions = {
     }
   },
 
-  addWhitelistAddress: async function (contract, wallet) {
+  vote: async function (contract, wallet, name, option) {
     try {
-      await contract.methods.addWhitelistAddress(wallet).send({ from: wallet });
+      await contract.methods.vote(option, name).send({ from: wallet });
+      console.log("vote successfully!");
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  addWhitelistAddress: async function (contract, wallet, address) {
+    try {
+      await contract.methods.addWhitelistAddress(address).send({ from: wallet });
 
       console.log("Address added in WhiteList!");
     } catch (err) {
@@ -34,51 +38,67 @@ export const contractFunctions = {
     }
   },
 
-  getOption1: async function (contract, wallet) {
+  getOption1: async function (contract, name) {
     try {
-      const option1Value = await contract.methods.getOption1(wallet).send({ from: wallet });
+      const result = await contract.methods.getOption1(name).call();
+      console.log("Option1: ", result);
 
-      console.log("Option1", option1Value);
+      return result;
     } catch (err) {
       console.error(err);
     }
   },
 
-  getOption2: async function (contract, wallet) {
+  getOption2: async function (contract, name) {
     try {
-      await contract.methods.getOption2(wallet).send({ from: wallet });
+      const result = await contract.methods.getOption2(name).call();
+      console.log("Option2: ", result);
 
-      console.log("Option2");
+      return result;
     } catch (err) {
       console.error(err);
     }
   },
 
-  getOption3: async function (contract, wallet) {
+  getOption3: async function (contract, name) {
     try {
-      await contract.methods.getOption1(wallet).send({ from: wallet });
+      const result = await contract.methods.getOption3(name).call();
+      console.log("Option3: ", result);
 
-      console.log("Option3");
+      return result;
     } catch (err) {
       console.error(err);
     }
   },
 
-  getPoolName: async function (contract, wallet) {
+  getPollCounts: async function (contract, name) {
     try {
-      await contract.methods.getPoolName(wallet).send({ from: wallet });
+      const result = await contract.methods.getPollCounts(name).call();
+      console.log("Result: ", result);
 
-      console.log("getPoolName");
+      return result;
     } catch (err) {
       console.error(err);
     }
   },
 
-  getPoolCounts: async function (contract, wallet) {
+  getPollName: async function (contract, name) {
     try {
-      await contract.methods.getPoolCounts(wallet).send({ from: wallet });
+      const result = await contract.methods.getPollName(name).call();
+      console.log("Question: ", result);
 
-      console.log("getPoolCounts");
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  isWhitelist: async function (contract, name) {
+    try {
+      const result = await contract.methods.whitelist(name).call();
+      console.log("is White list: ", result);
+
+      return result;
     } catch (err) {
       console.error(err);
     }

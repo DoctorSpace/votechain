@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { initContractX } from "../../utils/initContractX";
 import { contractFunctions } from "../../utils/contractFunctions";
 import { useSelector } from "react-redux";
 
@@ -11,9 +10,9 @@ const WhitelistAddressBlock = ({ wallet }) => {
   // Проверка если ввели больше одно адресса, добавить больше
 
   const addWhiteList = async () => {
-    console.log(wallet);
-    await contractFunctions.addWhitelistAddress(contract, wallet);
+    await contractFunctions.addWhitelistAddress(contract, wallet, address)
   };
+
 
   return (
     <div>

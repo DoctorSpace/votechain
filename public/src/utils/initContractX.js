@@ -1,16 +1,15 @@
 import Web3 from "web3";
 import { votingABI } from "../abi/abi";
 
-export const initContractX = async (wallet) => {
-  if (window.ethereum) {
+export const initContractX = async () => {
+  // Подключение к локальному узлу Ethereum
+  const web3 = new Web3(
+    new Web3.providers.HttpProvider("http://127.0.0.1:8545")
+  );
 
-    const web3Instance = new Web3(window.ethereum);
-    await window.ethereum.enable();
+  // Загрузка контракта
+  const contractAddress = "0x663F3ad617193148711d28f5334eE4Ed07016602";
+  const contract = new web3.eth.Contract(votingABI, contractAddress);
 
-    // Адрес контракта и его ABI
-    const contractInstance = new web3Instance.eth.Contract(votingABI, wallet);
-
-    return contractInstance
-    // TODO: добавить в redux
-  }
+  return contract
 };

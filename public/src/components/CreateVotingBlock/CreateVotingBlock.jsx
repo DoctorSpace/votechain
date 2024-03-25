@@ -23,7 +23,7 @@ const CreateVotingBlock = ({ wallet }) => {
   const createVoting = async () => {
     contractFunctions.createVoting(
       contract,
-      wallet,
+      wallet.address,
       question,
       name,
       option1,
