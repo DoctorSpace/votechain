@@ -30,9 +30,22 @@ export const contractFunctions = {
 
   addWhitelistAddress: async function (contract, wallet, address) {
     try {
-      await contract.methods.addWhitelistAddress(address).send({ from: wallet });
+      await contract.methods
+        .addWhitelistAddress(address)
+        .send({ from: wallet });
 
       console.log("Address added in WhiteList!");
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  getAllQuestions: async function (contract) {
+    try {
+      const result = await contract.methods.getAllQuestions().call();
+      console.log("getAllQuestions: ", result);
+
+      return result;
     } catch (err) {
       console.error(err);
     }

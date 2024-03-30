@@ -1,2 +1,4 @@
-/* App */
-@import url("./components/App/App.css");
+/* Vendor */
+@import url("./vendor/fonts.css");
+@import url("./vendor/normalize.css");
+@import url("./vendor/root.css");

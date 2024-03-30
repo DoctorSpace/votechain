@@ -19,6 +19,7 @@ contract Voting {
     address creator;
     mapping (address => bool) public whitelist;
     mapping (string => Start) polls;
+    string[] public allPollNames;
 
     function createVoting (string memory _question, string memory _name, string memory _option1, string
         memory _option2, string memory _option3) public {
@@ -32,6 +33,15 @@ contract Voting {
         polls[_name].count3 = 0;
         polls[_name].exists = true;
         creator = msg.sender;
+        allPollNames.push(_name);
+    }
+
+    function getAllQuestions() public view returns (string[] memory) {
+        string[] memory titles = new string[](allPollNames.length);
+        for (uint i = 0; i < allPollNames.length; i++) {
+            titles[i] = polls[allPollNames[i]].title;
+        }
+        return titles;
     }
 
     function addWhitelistAddress (address _address) public {
@@ -86,10 +96,6 @@ contract Voting {
         require(doesPollExist(pollName));
         return [polls[pollName].count1, polls[pollName].count2,
         polls[pollName].count3];
-    }
-
-    function myFunction() public view returns(uint256, string memory) {
-        return (23456, "Hello!%");
     }
 
     function doesPollExist (string memory pollName) private view returns (bool) {

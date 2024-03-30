@@ -12,7 +12,15 @@ const OptionsBlock = ({ wallet }) => {
   const [name, setName] = useState("");
   const [result, setResult] = useState("");
 
+  const [allQuestion, setAllQuestion] = useState("");
+
   const contract = useSelector((state) => state.contract.data);
+
+
+  const getAllQuestions = async () => {
+    setAllQuestion(await contractFunctions.getAllQuestions(contract));
+  };
+
 
   const getVoteInfo = async () => {
     if (!name) return;
@@ -34,6 +42,14 @@ const OptionsBlock = ({ wallet }) => {
 
   return (
     <div>
+      <h3>get All Questions</h3>
+      <div>
+        {allQuestion}
+        <button onClick={getAllQuestions}>get Vote Info</button>
+      </div>
+
+      {/*  */}
+
       <h3>Vote Info</h3>
       <div>
         <input

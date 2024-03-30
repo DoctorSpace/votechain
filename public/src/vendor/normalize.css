@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  scroll-behavior: smooth;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+span {
+  font-family: Exo2;
+  font-style: normal;
+  color: var(--black);
+  font-weight: 400;
+  text-decoration: none;
+}
+
+a,
+u {
+  text-decoration: none;
+}

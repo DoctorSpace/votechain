@@ -1,0 +1,23 @@
+@font-face {
+    font-display: swap;
+    font-family: 'Exo2';
+    font-style: normal;
+    font-weight: 200;
+    src: url("./fonts/Exo-2/exo2_extralight.otf") format("truetype");
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'Exo2';
+    font-style: normal;
+    font-weight: 300;
+    src: url("./fonts/Exo-2/exo2_light.otf") format("truetype");
+}
+  
+@font-face {
+    font-display: swap;
+    font-family: 'Exo2';
+    font-style: normal;
+    font-weight: 500;
+    src: url("./fonts/Exo-2/exo2_medium.otf") format("truetype");
+}

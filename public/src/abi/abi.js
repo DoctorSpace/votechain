@@ -62,6 +62,56 @@ export const votingABI = [
     inputs: [
       {
         internalType: "string",
+        name: "optionName",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "pollName",
+        type: "string",
+      },
+    ],
+    name: "vote",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "allPollNames",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getAllQuestions",
+    outputs: [
+      {
+        internalType: "string[]",
+        name: "",
+        type: "string[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
         name: "pollName",
         type: "string",
       },
@@ -151,24 +201,6 @@ export const votingABI = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "optionName",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "pollName",
-        type: "string",
-      },
-    ],
-    name: "vote",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {

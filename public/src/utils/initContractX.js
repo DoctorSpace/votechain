@@ -8,8 +8,8 @@ export const initContractX = async () => {
   );
 
   // Загрузка контракта
-  const contractAddress = "0x663F3ad617193148711d28f5334eE4Ed07016602";
+  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
   const contract = new web3.eth.Contract(votingABI, contractAddress);
 
-  return contract
+  return contract;
 };
