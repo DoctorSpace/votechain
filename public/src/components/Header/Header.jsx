@@ -4,6 +4,8 @@ import Web3 from "web3";
 import styled from "styled-components";
 import Votebox from "../../image/Votebox.svg";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setAddressData } from "../../store/features/addressSlice";
 
 const HeaderWraper = styled.div`
   margin-top: 10px;
@@ -56,6 +58,8 @@ const Header = () => {
   const [balance, setBalance] = useState(0);
   const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState(false);
 
+  const dispatch = useDispatch();
+
   // Функция для проверки наличия MetaMask
   const checkMetaMaskInstalled = () => {
     if (typeof window.ethereum !== "undefined") {
@@ -83,9 +87,12 @@ const Header = () => {
         });
         if (accounts.length > 0) {
           setCurrentAccount(accounts[0]);
+          console.log(accounts[0]);
+          dispatch(setAddressData(accounts[0]));
           getBalance(accounts[0]);
         } else {
           setCurrentAccount("");
+          dispatch(setAddressData(''));
           setBalance(0);
         }
       } catch (error) {

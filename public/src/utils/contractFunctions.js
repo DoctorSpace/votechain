@@ -2,15 +2,17 @@ export const contractFunctions = {
   createVoting: async function (
     contract,
     wallet,
+    _id,
+    title,
     question,
-    name,
     option1,
     option2,
-    option3
+    option3,
+    option4
   ) {
     try {
       await contract.methods
-        .createVoting(question, name, option1, option2, option3)
+        .createVoting(_id, title, question, option1, option2, option3, option4)
         .send({ from: wallet });
 
       console.log("Voting created successfully!");
@@ -19,9 +21,9 @@ export const contractFunctions = {
     }
   },
 
-  vote: async function (contract, wallet, name, option) {
+  vote: async function (contract, wallet, _id, option) {
     try {
-      await contract.methods.vote(option, name).send({ from: wallet });
+      await contract.methods.vote(option, _id).send({ from: wallet });
       console.log("vote successfully!");
     } catch (err) {
       console.error(err);
@@ -44,6 +46,39 @@ export const contractFunctions = {
     try {
       const result = await contract.methods.getAllQuestions().call();
       console.log("getAllQuestions: ", result);
+
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  getWhitelistedAddresses: async function (contract) {
+    try {
+      const result = await contract.methods.getWhitelistedAddresses().call();
+      console.log("WhitelistedAddresses: ", result);
+
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  getTitle: async function (contract, name) {
+    try {
+      const result = await contract.methods.getTitle(name).call();
+      console.log("Title: ", result);
+
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  getQuestion: async function (contract, name) {
+    try {
+      const result = await contract.methods.getQuestion(name).call();
+      console.log("Question: ", result);
 
       return result;
     } catch (err) {
@@ -84,10 +119,10 @@ export const contractFunctions = {
     }
   },
 
-  getPollCounts: async function (contract, name) {
+  getOption4: async function (contract, name) {
     try {
-      const result = await contract.methods.getPollCounts(name).call();
-      console.log("Result: ", result);
+      const result = await contract.methods.getOption4(name).call();
+      console.log("Option4: ", result);
 
       return result;
     } catch (err) {
@@ -95,10 +130,10 @@ export const contractFunctions = {
     }
   },
 
-  getPollName: async function (contract, name) {
+  getCounts: async function (contract, name) {
     try {
-      const result = await contract.methods.getPollName(name).call();
-      console.log("Question: ", result);
+      const result = await contract.methods.getCounts(name).call();
+      console.log("Result: ", result);
 
       return result;
     } catch (err) {

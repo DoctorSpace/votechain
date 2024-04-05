@@ -3,6 +3,7 @@ import { contractFunctions } from "../../utils/contractFunctions";
 import { useSelector } from "react-redux";
 
 const OptionsBlock = ({ wallet }) => {
+  const [title, setTitle] = useState("Title");
   const [question, setQuestion] = useState("Question");
   const [option1, setOption1] = useState("Option1");
   const [option2, setOption2] = useState("Option2");
@@ -27,12 +28,13 @@ const OptionsBlock = ({ wallet }) => {
     setOption1(await contractFunctions.getOption1(contract, name));
     setOption2(await contractFunctions.getOption2(contract, name));
     setOption3(await contractFunctions.getOption3(contract, name));
-    setQuestion(await contractFunctions.getPollName(contract, name));
+    setQuestion(await contractFunctions.getQuestion(contract, name));
+    setTitle(await contractFunctions.getTitle(contract, name));
   };
 
   const getResult = async () => {
     if (!name) return;
-    setResult(await contractFunctions.getPollCounts(contract, name));
+    setResult(await contractFunctions.getCounts(contract, name));
   };
 
   const getWhiteList = async () => {
@@ -60,6 +62,7 @@ const OptionsBlock = ({ wallet }) => {
         />
         <button onClick={getVoteInfo}>get Vote Info</button>
       </div>
+      <h3>{title}</h3>
       <h4>{question}</h4>
       <ul>
         <li>{option1}</li>

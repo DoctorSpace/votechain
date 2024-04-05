@@ -29,12 +29,17 @@ export const votingABI = [
     inputs: [
       {
         internalType: "string",
-        name: "_question",
+        name: "_id",
         type: "string",
       },
       {
         internalType: "string",
-        name: "_name",
+        name: "_title",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_question",
         type: "string",
       },
       {
@@ -52,6 +57,11 @@ export const votingABI = [
         name: "_option3",
         type: "string",
       },
+      {
+        internalType: "string",
+        name: "_option4",
+        type: "string",
+      },
     ],
     name: "createVoting",
     outputs: [],
@@ -62,37 +72,18 @@ export const votingABI = [
     inputs: [
       {
         internalType: "string",
-        name: "optionName",
+        name: "_option",
         type: "string",
       },
       {
         internalType: "string",
-        name: "pollName",
+        name: "_id",
         type: "string",
       },
     ],
     name: "vote",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "allPollNames",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -112,7 +103,26 @@ export const votingABI = [
     inputs: [
       {
         internalType: "string",
-        name: "pollName",
+        name: "_id",
+        type: "string",
+      },
+    ],
+    name: "getCounts",
+    outputs: [
+      {
+        internalType: "uint256[4]",
+        name: "",
+        type: "uint256[4]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_id",
         type: "string",
       },
     ],
@@ -131,7 +141,7 @@ export const votingABI = [
     inputs: [
       {
         internalType: "string",
-        name: "pollName",
+        name: "_id",
         type: "string",
       },
     ],
@@ -150,7 +160,7 @@ export const votingABI = [
     inputs: [
       {
         internalType: "string",
-        name: "pollName",
+        name: "_id",
         type: "string",
       },
     ],
@@ -169,16 +179,16 @@ export const votingABI = [
     inputs: [
       {
         internalType: "string",
-        name: "pollName",
+        name: "_id",
         type: "string",
       },
     ],
-    name: "getPollCounts",
+    name: "getOption4",
     outputs: [
       {
-        internalType: "uint256[3]",
+        internalType: "string",
         name: "",
-        type: "uint256[3]",
+        type: "string",
       },
     ],
     stateMutability: "view",
@@ -188,11 +198,62 @@ export const votingABI = [
     inputs: [
       {
         internalType: "string",
-        name: "pollName",
+        name: "_id",
         type: "string",
       },
     ],
-    name: "getPollName",
+    name: "getQuestion",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_id",
+        type: "string",
+      },
+    ],
+    name: "getTitle",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getWhitelistedAddresses",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "",
+        type: "address[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "pollIDs",
     outputs: [
       {
         internalType: "string",

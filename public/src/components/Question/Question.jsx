@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PrimaryButton from "../UI/PrimaryButton/PrimaryButton";
 import { Link } from "react-router-dom";
+import { contractFunctions } from "../../utils/contractFunctions";
+import { useSelector } from "react-redux";
 
 const QuestionWraper = styled.div`
   background: var(--background);
@@ -39,6 +41,11 @@ const SecondQuestionPlace = styled.h4`
   font-weight: 300;
 `;
 
+const CountsPlace = styled.p`
+  padding: 0 20px;
+  font-weight: 300;
+`;
+
 const ButtonPlace = styled.div`
   position: absolute;
   right: 20px;
@@ -46,18 +53,40 @@ const ButtonPlace = styled.div`
 `;
 
 const Question = ({ data }) => {
+  const [title, setTitle] = useState("Title");
+  const [question, setQuestion] = useState("Question");
+  const [counts, setCounts] = useState("");
+
+  const contract = useSelector((state) => state.contract.data);
+
+  useEffect(() => {
+    const getVoteInfo = async () => {
+      if (!data) return;
+      setTitle(await contractFunctions.getTitle(contract, data));
+      setQuestion(await contractFunctions.getQuestion(contract, data));
+    };
+
+    const getCounts = async () => {
+      if (!data) return;
+      setCounts(await contractFunctions.getCounts(contract, data));
+    };
+
+    getVoteInfo();
+    getCounts();
+  }, []);
+
   return (
     <QuestionWraper>
       <IdPlace>{data}</IdPlace>
-      <MainQuestionPlace>
-        Мировые здравоохранение и борьба с пандемиями
-      </MainQuestionPlace>
-      <SecondQuestionPlace>
-        Какие меры считаете важными для обеспечения свободы СМИ и защиты от
-        дезинформации?
-      </SecondQuestionPlace>
+      <MainQuestionPlace>{title}</MainQuestionPlace>
+      <SecondQuestionPlace>{question}</SecondQuestionPlace>
+      <CountsPlace>
+        {counts
+          ? `${counts[0]} - ${counts[1]} - ${counts[2]} - ${counts[3]}`
+          : ""}
+      </CountsPlace>
       <ButtonPlace>
-        <Link to={`/data/${data}`}>
+        <Link to={`/vote/${data}`}>
           <PrimaryButton width={"240px"} height={"44px"}>
             пройти опрос
           </PrimaryButton>

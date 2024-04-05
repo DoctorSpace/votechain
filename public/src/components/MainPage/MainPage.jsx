@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import Voting from "../../image/Voting.svg";
 import SecondaryButton from "../UI/SecondaryButton/SecondaryButton";
 import PrimaryButton from "../UI/PrimaryButton/PrimaryButton";
-import Header from "../Header/Header";
 import QuestionsBlock from "../QuestionsBlock/QuestionsBlock";
 
 const MainWraper = styled.div`
@@ -55,7 +55,9 @@ const MainPage = () => {
           </h3>
           <ButtonWraper>
             <PrimaryButton width={"330px"}>Учавствовать в опросе</PrimaryButton>
-            <SecondaryButton>Создать голосование</SecondaryButton>
+            <Link to="/create">
+              <SecondaryButton>Создать голосование</SecondaryButton>
+            </Link>
           </ButtonWraper>
         </InfoBlock>
         <img src={Voting} alt="voting" />

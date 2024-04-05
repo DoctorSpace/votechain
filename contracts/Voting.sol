@@ -4,14 +4,17 @@ pragma solidity ^0.8.24;
 contract Voting {
 
     struct Start {
+        string id;
         string title;
         string question;
         string option1;
         string option2;
         string option3;
+        string option4;
         uint count1;
         uint count2;
         uint count3;
+        uint count4;
         mapping (address => bool) voted;
         bool exists;
     }
@@ -19,96 +22,115 @@ contract Voting {
     address creator;
     mapping (address => bool) public whitelist;
     mapping (string => Start) polls;
-    string[] public allPollNames;
+    string[] public pollIDs;
+    address[] private whitelistedAddresses;
 
-    function createVoting (string memory _question, string memory _name, string memory _option1, string
-        memory _option2, string memory _option3) public {
-        polls[_name].title = _name;
-        polls[_name].question = _question;
-        polls[_name].option1 = _option1;
-        polls[_name].option2 = _option2;
-        polls[_name].option3 = _option3;
-        polls[_name].count1 = 0;
-        polls[_name].count2 = 0;
-        polls[_name].count3 = 0;
-        polls[_name].exists = true;
+    function createVoting (string memory _id, string memory _title, string memory _question, string memory _option1, string
+        memory _option2, string memory _option3, string memory _option4) public {
+        polls[_id].id = _id;
+        polls[_id].title = _title;
+        polls[_id].question = _question;
+        polls[_id].option1 = _option1;
+        polls[_id].option2 = _option2;
+        polls[_id].option3 = _option3;
+        polls[_id].option4 = _option4;
+        polls[_id].count1 = 0;
+        polls[_id].count2 = 0;
+        polls[_id].count3 = 0;
+        polls[_id].count4 = 0;
+        polls[_id].exists = true;
         creator = msg.sender;
-        allPollNames.push(_name);
+        pollIDs.push(_id);
     }
 
     function getAllQuestions() public view returns (string[] memory) {
-        string[] memory titles = new string[](allPollNames.length);
-        for (uint i = 0; i < allPollNames.length; i++) {
-            titles[i] = polls[allPollNames[i]].title;
-        }
-        return titles;
+        return pollIDs;
     }
 
-    function addWhitelistAddress (address _address) public {
+    function addWhitelistAddress(address _address) public {
         if (msg.sender != creator) return;
         whitelist[_address] = true;
+        whitelistedAddresses.push(_address); // Добавляем адрес в массив
     }
 
-    function addManyWhitelistAddress (address[] memory _addresses) public {
-    if (msg.sender != creator) return;
+    function addManyWhitelistAddress(address[] memory _addresses) public {
+        if (msg.sender != creator) return;
         for (uint256 i = 0; i < _addresses.length; i++) {
             whitelist[_addresses[i]] = true;
+            whitelistedAddresses.push(_addresses[i]); // Добавляем адрес в массив
         }
     }
 
-    function vote (string memory optionName, string memory pollName) public {
-        require(doesPollExist(pollName), "Poll does not exist");
+    function getWhitelistedAddresses() public view returns (address[] memory) {
+        return whitelistedAddresses;
+    }
+
+
+
+
+    function vote (string memory _option, string memory _id) public {
+        require(doesPollExist(_id), "Poll does not exist");
         require(whitelist[msg.sender], "Address not whitelisted");
-        require(hasAlreadyVoted(pollName), "Address has already voted");
-        polls[pollName].voted[msg.sender] = true;
-        if (keccak256(abi.encodePacked(polls[pollName].option1)) == keccak256(abi.encodePacked(optionName))) {
-            polls[pollName].count1 += 1; 
+        require(!hasAlreadyVoted(_id), "Address has already voted");
+
+        polls[_id].voted[msg.sender] = true;
+
+        if (keccak256(abi.encodePacked(polls[_id].option1)) == keccak256(abi.encodePacked(_option))) {
+            polls[_id].count1 += 1; 
         }
-        if (keccak256(abi.encodePacked(polls[pollName].option2)) == keccak256(abi.encodePacked(optionName))) {
-            polls[pollName].count2 += 1; 
+        if (keccak256(abi.encodePacked(polls[_id].option2)) == keccak256(abi.encodePacked(_option))) {
+            polls[_id].count2 += 1; 
         }
-        if (keccak256(abi.encodePacked(polls[pollName].option3)) == keccak256(abi.encodePacked(optionName))) {
-            polls[pollName].count3 += 1; 
+        if (keccak256(abi.encodePacked(polls[_id].option3)) == keccak256(abi.encodePacked(_option))) {
+            polls[_id].count3 += 1; 
+        }
+
+        if (keccak256(abi.encodePacked(polls[_id].option4)) == keccak256(abi.encodePacked(_option))) {
+            polls[_id].count4 += 1; 
         }
     }
 
-    function getPollName (string memory pollName) public view returns (string memory) {
-        require(doesPollExist(pollName));
-        return polls[pollName].question;
+    function getQuestion (string memory _id) public view returns (string memory) {
+        require(doesPollExist(_id));
+        return polls[_id].question;
     }
 
-    function getOption1 (string memory pollName) public view returns (string memory) {
-        require(doesPollExist(pollName));
-        return polls[pollName].option1;
+    function getTitle (string memory _id) public view returns (string memory) {
+        require(doesPollExist(_id));
+        return polls[_id].title;
     }
 
-    function getOption2 (string memory pollName) public view returns (string memory) {
-        require(doesPollExist(pollName));
-        return polls[pollName].option2;
+    function getOption1 (string memory _id) public view returns (string memory) {
+        require(doesPollExist(_id));
+        return polls[_id].option1;
     }
 
-    function getOption3 (string memory pollName) public view returns (string memory) {
-        require(doesPollExist(pollName));
-        return polls[pollName].option3;
+    function getOption2 (string memory _id) public view returns (string memory) {
+        require(doesPollExist(_id));
+        return polls[_id].option2;
     }
 
-    function getPollCounts (string memory pollName) public view returns (uint[3] memory) {
-        require(doesPollExist(pollName));
-        return [polls[pollName].count1, polls[pollName].count2,
-        polls[pollName].count3];
+    function getOption3 (string memory _id) public view returns (string memory) {
+        require(doesPollExist(_id));
+        return polls[_id].option3;
     }
 
-    function doesPollExist (string memory pollName) private view returns (bool) {
-    if (polls[pollName].exists) {
-        return true;
-    } else {
-        return false;
-    }}
+    function getOption4 (string memory _id) public view returns (string memory) {
+        require(doesPollExist(_id));
+        return polls[_id].option4;
+    }
 
-    function hasAlreadyVoted (string memory pollName) private view returns (bool) {
-    if (polls[pollName].voted[msg.sender]) {
-        return false;
-    } else {
-        return true;
-    }}
+    function getCounts (string memory _id) public view returns (uint[4] memory) {
+        require(doesPollExist(_id));
+        return [polls[_id].count1, polls[_id].count2,
+        polls[_id].count3, polls[_id].count4];
+    }
+
+    function doesPollExist (string memory _id) private view returns (bool) {
+        return polls[_id].exists;
+    }
+
+    function hasAlreadyVoted (string memory _id) private view returns (bool) {
+        return polls[_id].voted[msg.sender];
+    }
 }

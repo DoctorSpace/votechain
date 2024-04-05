@@ -15,6 +15,7 @@ import VoteBlock from "../VoteBlock/VoteBlock";
 import MainPage from "../MainPage/MainPage";
 import Header from "../Header/Header";
 import VotePage from "../VotePage/VotePage";
+import VoteCreatePage from "../VoteCreatePage/VoteCreatePage";
 
 const AppWraper = styled.div`
   margin: auto;
@@ -70,7 +71,7 @@ function App() {
     };
 
     fetchData().catch(console.error);
-  }, []);
+  }, [dispatch]);
 
   return (
     <AppWraper>
@@ -78,7 +79,9 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path='*' element={<MainPage />} />
-        <Route path="/data/:data" element={<VotePage />} />
+        <Route path='/create' element={<VoteCreatePage />} />
+
+        <Route path="/vote/:data" element={<VotePage />} />
 
       </Routes>
       {/* <OptionsBlock /> */}
