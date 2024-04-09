@@ -4,6 +4,7 @@ import { contractFunctions } from "../../utils/contractFunctions";
 import { useSelector } from "react-redux";
 import PrimaryButton from "../UI/PrimaryButton/PrimaryButton";
 import NotActiveButton from "../UI/NotActiveButton/NotActiveButton";
+import Notification from "../UI/Notification/Notification";
 
 const VoteWraper = styled.div`
   margin-top: 100px;
@@ -78,6 +79,7 @@ const VotePage = () => {
   const [option4, setOption4] = useState("Option4");
   const [iswhitelist, setIsWhitelist] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
+  const [isNotification, setIsNotification] = useState(false);
 
   const contract = useSelector((state) => state.contract.data);
   const address = useSelector((state) => state.address.data);
@@ -112,6 +114,11 @@ const VotePage = () => {
   const handleButtonClick = async () => {
     if (selectedValue !== null) {
       await contractFunctions.vote(contract, address, id, selectedValue);
+
+      setIsNotification(true);
+      setTimeout(() => {
+        setIsNotification(false);
+      }, 2000);
     } else {
       console.log("Пожалуйста, выберите значение");
     }
@@ -179,6 +186,8 @@ const VotePage = () => {
             )}
           </ButtonWraper>
         </VoteBlock>
+
+        {isNotification && <Notification>Выбор учтён</Notification>}
       </VoteWraper>
     </div>
   );

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { ethers, formatEther } from "ethers";
 import Web3 from "web3";
 import styled from "styled-components";
 import Votebox from "../../image/Votebox.svg";
+import Metamask from "../../image/metamask.png";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAddressData } from "../../store/features/addressSlice";
+import { shortening } from "../../utils/shortening";
+import Notification from "../UI/Notification/Notification";
 
 const HeaderWraper = styled.div`
   margin-top: 10px;
@@ -38,6 +40,24 @@ const InfoWraper = styled.div`
   align-items: center;
 `;
 
+const MetaMaskLinlk = styled.a`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  border: 1px solid var(--main);
+  padding: 0 10px;
+  border-radius: 6px;
+
+  p {
+    font-size: 12px;
+  }
+
+  img {
+    height: 28px;
+  }
+`;
+
 const AddressBlock = styled.p`
   font-size: 10px;
 
@@ -57,6 +77,7 @@ const Header = () => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [balance, setBalance] = useState(0);
   const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState(false);
+  const [isNotification, setIsNotification] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -70,13 +91,19 @@ const Header = () => {
   };
 
   const copyAddress = () => {
-    const addressElement = document.getElementById("address");
-    const range = document.createRange();
-    range.selectNode(addressElement);
-    window.getSelection().removeAllRanges();
-    window.getSelection().addRange(range);
-    document.execCommand("copy");
-    window.getSelection().removeAllRanges();
+    navigator.clipboard
+      .writeText(currentAccount)
+      .then(() => {
+        console.log("Значение скопировано в буфер обмена:", currentAccount);
+
+        setIsNotification(true);
+        setTimeout(() => {
+          setIsNotification(false);
+        }, 2000);
+      })
+      .catch((error) => {
+        console.error("Ошибка при копировании в буфер обмена:", error);
+      });
   };
 
   const getCurrentAccount = async () => {
@@ -92,7 +119,7 @@ const Header = () => {
           getBalance(accounts[0]);
         } else {
           setCurrentAccount("");
-          dispatch(setAddressData(''));
+          dispatch(setAddressData(""));
           setBalance(0);
         }
       } catch (error) {
@@ -134,14 +161,19 @@ const Header = () => {
 
       {isMetaMaskInstalled ? (
         <InfoWraper>
-          <AddressBlock id="address" onClick={copyAddress}>
-            {currentAccount}
+          <AddressBlock onClick={copyAddress}>
+            {shortening(currentAccount)}
           </AddressBlock>
           <BalanceBlock>{balance} ETH</BalanceBlock>
         </InfoWraper>
       ) : (
-        <div>MetaMask не установлен</div>
+        <MetaMaskLinlk href="https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?Hl=ru&pli=1">
+          <img src={Metamask} alt="Metamask icon"></img>
+          <p>Нужно установить MetaMask</p>
+        </MetaMaskLinlk>
       )}
+
+      {isNotification && <Notification>Скопировано</Notification>}
     </HeaderWraper>
   );
 };

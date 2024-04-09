@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import Web3 from "web3";
 import PrimaryInput from "../UI/PrimaryInput/PrimaryInput";
 import { genHash } from "../../utils/genHash";
 import { useSelector } from "react-redux";
 import PrimaryButton from "../UI/PrimaryButton/PrimaryButton";
 import { contractFunctions } from "../../utils/contractFunctions";
+import Notification from "../UI/Notification/Notification";
+
 
 const VotePlace = styled.div`
   margin-top: 80px;
@@ -78,6 +81,7 @@ const VoteCreatePage = () => {
   const [option4, setOption4] = useState("");
   const [guestAddress, setGuestAddress] = useState("");
   const [inBaseAddress, setInBaseAddress] = useState([]);
+  const [isNotification, setIsNotification] = useState(false);
 
   const contract = useSelector((state) => state.contract.data);
   const address = useSelector((state) => state.address.data);
@@ -92,16 +96,48 @@ const VoteCreatePage = () => {
     getBaseAddress();
   }, [contract]);
 
+
+  const weeeeb = async () => {
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider("http://127.0.0.1:8545")
+    );
+
+    const latestBlockNumber = await web3.eth.getBlockNumber();
+    const block = await web3.eth.getBlock(latestBlockNumber);
+
+    const tx = await web3.eth.getTransactionFromBlock(latestBlockNumber, 0);
+    console.log("6+++tx", tx);
+
+    const transaction = await web3.eth.getTransaction(tx.hash);
+
+    console.log("transaction", transaction);
+    console.log("---latestBlocks", block);
+  };
+
   const createVote = async () => {
     const hash10 = genHash();
 
     if (!question || !title) return;
     if (!option1 || !option2 || !option3 || !option4) return;
 
+
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider("http://127.0.0.1:8545")
+    );
+
+    const latestBlockNumber = await web3.eth.getBlockNumber();
+    // const block = await web3.eth.getBlock(latestBlockNumber);
+
+    const tx = await web3.eth.getTransactionFromBlock(latestBlockNumber, 0);
+    // const transaction = await web3.eth.getTransaction(tx.hash);
+
+    // console.log(transaction);
+
+
     await contractFunctions.createVoting(
       contract,
       address,
-      hash10,
+      tx.hash,
       title,
       question,
       option1,
@@ -109,6 +145,12 @@ const VoteCreatePage = () => {
       option3,
       option4
     );
+
+    setIsNotification(true);
+    setTimeout(() => {
+      setIsNotification(false);
+    }, 2000);
+
   };
 
   const addAdress = async () => {
@@ -207,6 +249,8 @@ const VoteCreatePage = () => {
           </InputInfo>
         </VoteBlock>
       </VoteWraper>
+
+      {isNotification && <Notification>Опрос создан</Notification>}
     </VotePlace>
   );
 };

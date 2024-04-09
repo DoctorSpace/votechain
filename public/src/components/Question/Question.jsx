@@ -4,6 +4,8 @@ import PrimaryButton from "../UI/PrimaryButton/PrimaryButton";
 import { Link } from "react-router-dom";
 import { contractFunctions } from "../../utils/contractFunctions";
 import { useSelector } from "react-redux";
+import Notification from "../UI/Notification/Notification";
+import { shortening } from "../../utils/shortening";
 
 const QuestionWraper = styled.div`
   background: var(--background);
@@ -16,6 +18,7 @@ const QuestionWraper = styled.div`
 `;
 
 const IdPlace = styled.p`
+  cursor: pointer;
   position: absolute;
   right: 40px;
   border-radius: 0 0 6px 6px;
@@ -56,8 +59,25 @@ const Question = ({ data }) => {
   const [title, setTitle] = useState("Title");
   const [question, setQuestion] = useState("Question");
   const [counts, setCounts] = useState("");
+  const [isNotification, setIsNotification] = useState(false);
 
   const contract = useSelector((state) => state.contract.data);
+
+  const copyAddress = () => {
+    navigator.clipboard
+      .writeText(data)
+      .then(() => {
+        console.log("Значение скопировано в буфер обмена:", data);
+
+        setIsNotification(true);
+        setTimeout(() => {
+          setIsNotification(false);
+        }, 2000);
+      })
+      .catch((error) => {
+        console.error("Ошибка при копировании в буфер обмена:", error);
+      });
+  };
 
   useEffect(() => {
     const getVoteInfo = async () => {
@@ -77,7 +97,7 @@ const Question = ({ data }) => {
 
   return (
     <QuestionWraper>
-      <IdPlace>{data}</IdPlace>
+      <IdPlace onClick={copyAddress}>{shortening(data)}</IdPlace>
       <MainQuestionPlace>{title}</MainQuestionPlace>
       <SecondQuestionPlace>{question}</SecondQuestionPlace>
       <CountsPlace>
@@ -92,6 +112,8 @@ const Question = ({ data }) => {
           </PrimaryButton>
         </Link>
       </ButtonPlace>
+
+      {isNotification && <Notification>Скопировано</Notification>}
     </QuestionWraper>
   );
 };

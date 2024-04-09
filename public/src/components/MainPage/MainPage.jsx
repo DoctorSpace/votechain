@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Web3 from "web3";
 import Voting from "../../image/Voting.svg";
 import SecondaryButton from "../UI/SecondaryButton/SecondaryButton";
 import PrimaryButton from "../UI/PrimaryButton/PrimaryButton";
 import QuestionsBlock from "../QuestionsBlock/QuestionsBlock";
+import PrimaryInput from "../UI/PrimaryInput/PrimaryInput";
 
 const MainWraper = styled.div`
   margin-top: 60px;
@@ -41,6 +43,25 @@ const ButtonWraper = styled.div`
 `;
 
 const MainPage = () => {
+  const [hash, setHash] = useState("");
+
+  const weeeeb = async () => {
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider("http://127.0.0.1:8545")
+    );
+
+    // const latestBlockNumber = await web3.eth.getBlockNumber();
+    // const block = await web3.eth.getBlock(latestBlockNumber);
+
+    // const tx = await web3.eth.getTransactionFromBlock(latestBlockNumber, 0);
+    // console.log("6+++tx", tx);
+
+    const transaction = await web3.eth.getTransaction(hash);
+
+    console.log("transaction", transaction);
+    // console.log("---latestBlocks", block);
+  };
+
   return (
     <>
       <MainWraper>
@@ -62,6 +83,16 @@ const MainPage = () => {
         </InfoBlock>
         <img src={Voting} alt="voting" />
       </MainWraper>
+
+      <div>
+        <PrimaryInput
+          type="text"
+          value={hash}
+          onChange={(e) => setHash(e.target.value)}
+          placeholder="Hash"
+        />
+        <PrimaryButton onClick={weeeeb}>ssss</PrimaryButton>
+      </div>
 
       <QuestionsBlock />
     </>
