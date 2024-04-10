@@ -27,7 +27,9 @@ const QuestionsBlock = () => {
   return (
     <QuestionsWraper>
       {allQuestion &&
-        allQuestion.map((item, index) => <Question data={item} key={index} />)}
+        allQuestion
+          .reverse()
+          .map((item, index) => <Question data={item} key={index} />)}
     </QuestionsWraper>
   );
 };

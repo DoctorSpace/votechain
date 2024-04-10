@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.24;
+pragma solidity ^0.8.0;
 
 contract Voting {
 
@@ -17,9 +17,10 @@ contract Voting {
         uint count4;
         mapping (address => bool) voted;
         bool exists;
+        bool isFinished;
+        address creator;
     }
 
-    address creator;
     mapping (address => bool) public whitelist;
     mapping (string => Start) polls;
     string[] public pollIDs;
@@ -39,7 +40,7 @@ contract Voting {
         polls[_id].count3 = 0;
         polls[_id].count4 = 0;
         polls[_id].exists = true;
-        creator = msg.sender;
+        polls[_id].creator = msg.sender;
         pollIDs.push(_id);
     }
 
@@ -47,17 +48,22 @@ contract Voting {
         return pollIDs;
     }
 
+    function getCreatorAddress(string memory _id) public view returns (address) {
+        require(doesPollExist(_id), "Poll does not exist");
+        return polls[_id].creator;
+    }
+
     function addWhitelistAddress(address _address) public {
-        if (msg.sender != creator) return;
+        if (msg.sender != msg.sender) return;
         whitelist[_address] = true;
-        whitelistedAddresses.push(_address); // Добавляем адрес в массив
+        whitelistedAddresses.push(_address);
     }
 
     function addManyWhitelistAddress(address[] memory _addresses) public {
-        if (msg.sender != creator) return;
+        if (msg.sender != msg.sender) return;
         for (uint256 i = 0; i < _addresses.length; i++) {
             whitelist[_addresses[i]] = true;
-            whitelistedAddresses.push(_addresses[i]); // Добавляем адрес в массив
+            whitelistedAddresses.push(_addresses[i]);
         }
     }
 
@@ -65,13 +71,22 @@ contract Voting {
         return whitelistedAddresses;
     }
 
+    function finishVoting(string memory _id) public {
+        require(doesPollExist(_id), "Poll does not exist");
+        require(msg.sender == msg.sender, "Only the creator can finish the voting");
+        polls[_id].isFinished = true;
+    }
 
-
+    function isVotingFinished(string memory _id) public view returns (bool) {
+        require(doesPollExist(_id), "Poll does not exist");
+        return polls[_id].isFinished;
+    }
 
     function vote (string memory _option, string memory _id) public {
         require(doesPollExist(_id), "Poll does not exist");
         require(whitelist[msg.sender], "Address not whitelisted");
         require(!hasAlreadyVoted(_id), "Address has already voted");
+        require(!polls[_id].isFinished, "Voting for this poll has finished");
 
         polls[_id].voted[msg.sender] = true;
 

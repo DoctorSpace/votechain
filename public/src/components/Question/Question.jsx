@@ -6,6 +6,7 @@ import { contractFunctions } from "../../utils/contractFunctions";
 import { useSelector } from "react-redux";
 import Notification from "../UI/Notification/Notification";
 import { shortening } from "../../utils/shortening";
+import NotActiveButton from "../UI/NotActiveButton/NotActiveButton";
 
 const QuestionWraper = styled.div`
   background: var(--background);
@@ -60,6 +61,7 @@ const Question = ({ data }) => {
   const [question, setQuestion] = useState("Question");
   const [counts, setCounts] = useState("");
   const [isNotification, setIsNotification] = useState(false);
+  const [isActive, setIsActive] = useState(false);
 
   const contract = useSelector((state) => state.contract.data);
 
@@ -91,6 +93,12 @@ const Question = ({ data }) => {
       setCounts(await contractFunctions.getCounts(contract, data));
     };
 
+    const gestIsActive = async () => {
+      setIsActive(await contractFunctions.isVotingFinished(contract, data));
+      console.log('isActive', isActive);
+    };
+
+    gestIsActive();
     getVoteInfo();
     getCounts();
   }, []);
@@ -106,11 +114,13 @@ const Question = ({ data }) => {
           : ""}
       </CountsPlace>
       <ButtonPlace>
-        <Link to={`/vote/${data}`}>
-          <PrimaryButton width={"240px"} height={"44px"}>
-            пройти опрос
-          </PrimaryButton>
-        </Link>
+        {!isActive ? (
+          <Link to={`/vote/${data}`}>
+            <PrimaryButton width={"240px"} height={"44px"}>
+              пройти опрос
+            </PrimaryButton>
+          </Link>
+        ) : <NotActiveButton width={'240px'} height={'44px'}>опрос завершён</NotActiveButton>}
       </ButtonPlace>
 
       {isNotification && <Notification>Скопировано</Notification>}

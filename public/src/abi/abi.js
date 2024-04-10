@@ -72,6 +72,19 @@ export const votingABI = [
     inputs: [
       {
         internalType: "string",
+        name: "_id",
+        type: "string",
+      },
+    ],
+    name: "finishVoting",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
         name: "_option",
         type: "string",
       },
@@ -113,6 +126,25 @@ export const votingABI = [
         internalType: "uint256[4]",
         name: "",
         type: "uint256[4]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_id",
+        type: "string",
+      },
+    ],
+    name: "getCreatorAddress",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -240,6 +272,25 @@ export const votingABI = [
         internalType: "address[]",
         name: "",
         type: "address[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_id",
+        type: "string",
+      },
+    ],
+    name: "isVotingFinished",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
       },
     ],
     stateMutability: "view",

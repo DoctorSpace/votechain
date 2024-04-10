@@ -125,71 +125,69 @@ const VotePage = () => {
   };
 
   return (
-    <div>
-      <VoteWraper>
-        <VoteBlock>
-          <MainQuestionPlace>Тема: {title}</MainQuestionPlace>
-          <SecondQuestionPlace>{question}</SecondQuestionPlace>
+    <VoteWraper>
+      <VoteBlock>
+        <MainQuestionPlace>Тема: {title}</MainQuestionPlace>
+        <SecondQuestionPlace>{question}</SecondQuestionPlace>
 
-          <OptionsWraper>
-            <Option htmlFor="option1">
-              <RadioBtn
-                id="option1"
-                value={option1}
-                onChange={handleRadioChange}
-              />
-              {option1}
-            </Option>
+        <OptionsWraper>
+          <Option htmlFor="option1">
+            <RadioBtn
+              id="option1"
+              value={option1}
+              onChange={handleRadioChange}
+            />
+            {option1}
+          </Option>
 
-            <Option htmlFor="option2">
-              <RadioBtn
-                id="option2"
-                value={option2}
-                onChange={handleRadioChange}
-              />
-              {option2}
-            </Option>
+          <Option htmlFor="option2">
+            <RadioBtn
+              id="option2"
+              value={option2}
+              onChange={handleRadioChange}
+            />
+            {option2}
+          </Option>
 
-            <Option htmlFor="option3">
-              <RadioBtn
-                id="option3"
-                value={option3}
-                onChange={handleRadioChange}
-              />
-              {option3}
-            </Option>
+          <Option htmlFor="option3">
+            <RadioBtn
+              id="option3"
+              value={option3}
+              onChange={handleRadioChange}
+            />
+            {option3}
+          </Option>
 
-            <Option htmlFor="option4">
-              <RadioBtn
-                id="option4"
-                value={option4}
-                onChange={handleRadioChange}
-              />
-              {option4}
-            </Option>
-          </OptionsWraper>
+          <Option htmlFor="option4">
+            <RadioBtn
+              id="option4"
+              value={option4}
+              onChange={handleRadioChange}
+            />
+            {option4}
+          </Option>
+        </OptionsWraper>
 
-          <ButtonWraper>
-            {iswhitelist ? (
-              <PrimaryButton
-                width={"220px"}
-                height={"50px"}
-                onClick={handleButtonClick}
-              >
-                Проголосовать
-              </PrimaryButton>
-            ) : (
-              <NotActiveButton width={"220px"} height={"50px"}>
-                {" "}
-                Проголосовать
-              </NotActiveButton>
-            )}
-          </ButtonWraper>
-        </VoteBlock>
+        <ButtonWraper>
+          {iswhitelist ? (
+            <PrimaryButton
+              width={"220px"}
+              height={"50px"}
+              onClick={handleButtonClick}
+            >
+              Проголосовать
+            </PrimaryButton>
+          ) : (
+            <NotActiveButton width={"220px"} height={"50px"}>
+              {" "}
+              Проголосовать
+            </NotActiveButton>
+          )}
+        </ButtonWraper>
+      </VoteBlock>
 
-        {isNotification && <Notification>Выбор учтён</Notification>}
-      </VoteWraper>
-    </div>
+      {isNotification && <Notification>Выбор учтён</Notification>}
+    </VoteWraper>
   );
 };
 

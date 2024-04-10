@@ -42,6 +42,15 @@ export const contractFunctions = {
     }
   },
 
+  finishVoting: async function (contract, wallet, name) {
+    try {
+      await contract.methods.finishVoting(name).send({ from: wallet });
+      console.log("vote successfully remove!");
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
   getAllQuestions: async function (contract) {
     try {
       const result = await contract.methods.getAllQuestions().call();
@@ -133,6 +142,28 @@ export const contractFunctions = {
   getCounts: async function (contract, name) {
     try {
       const result = await contract.methods.getCounts(name).call();
+      console.log("Counts: ", result);
+
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  getCreatorAddress: async function (contract, name) {
+    try {
+      const result = await contract.methods.getCreatorAddress(name).call();
+      console.log("Result: ", result);
+
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  isVotingFinished: async function (contract, name) {
+    try {
+      const result = await contract.methods.isVotingFinished(name).call();
       console.log("Result: ", result);
 
       return result;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Web3 from "web3";
 import styled from "styled-components";
 import Votebox from "../../image/Votebox.svg";
+import User from "../../image/user.svg";
 import Metamask from "../../image/metamask.png";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -34,10 +35,11 @@ const IconWraper = styled.button`
   }
 `;
 
-const InfoWraper = styled.div`
+const Container = styled.nav`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  gap: 24px;
 `;
 
 const MetaMaskLinlk = styled.a`
@@ -62,11 +64,24 @@ const AddressBlock = styled.p`
   font-size: 10px;
 
   display: inline-block;
-  background-color: #f0f0f0;
-  padding: 5px 10px;
-  border-radius: 5px;
+  color: var(--main);
+  background-color: var(--second);
+  padding: 0 6px;
+  border-radius: 4px;
   cursor: pointer;
   user-select: all;
+`;
+
+const UserBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    cursor: pointer;
+    width: 36px;
+  }
 `;
 
 const BalanceBlock = styled.p`
@@ -160,12 +175,31 @@ const Header = () => {
       </Link>
 
       {isMetaMaskInstalled ? (
-        <InfoWraper>
-          <AddressBlock onClick={copyAddress}>
+        <Container>
+          <Link to="/result">
+            <p>Результаты</p>
+          </Link>
+          <Link to="/check">
+            <p>Проверить</p>
+          </Link>
+          <Link to="/create">
+            <p>Создать</p>
+          </Link>
+
+          <UserBlock>
+            <Link to="/profile">
+              <img src={User} alt="user" />
+            </Link>
+            <AddressBlock onClick={copyAddress}>
+              {shortening(currentAccount)}
+            </AddressBlock>
+          </UserBlock>
+
+          {/* <AddressBlock onClick={copyAddress}>
             {shortening(currentAccount)}
           </AddressBlock>
-          <BalanceBlock>{balance} ETH</BalanceBlock>
-        </InfoWraper>
+          <BalanceBlock>{balance} ETH</BalanceBlock> */}
+        </Container>
       ) : (
         <MetaMaskLinlk href="https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?Hl=ru&pli=1">
           <img src={Metamask} alt="Metamask icon"></img>
