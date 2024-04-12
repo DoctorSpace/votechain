@@ -36,6 +36,7 @@ const Ansver = styled.div`
 
   p {
     padding: 6px 10px;
+    font-weight: 300;
   }
 `;
 

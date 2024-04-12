@@ -97,41 +97,17 @@ const VoteCreatePage = () => {
   }, [contract]);
 
 
-  const weeeeb = async () => {
-    const web3 = new Web3(
-      new Web3.providers.HttpProvider("http://127.0.0.1:8545")
-    );
-
-    const latestBlockNumber = await web3.eth.getBlockNumber();
-    const block = await web3.eth.getBlock(latestBlockNumber);
-
-    const tx = await web3.eth.getTransactionFromBlock(latestBlockNumber, 0);
-    console.log("6+++tx", tx);
-
-    const transaction = await web3.eth.getTransaction(tx.hash);
-
-    console.log("transaction", transaction);
-    console.log("---latestBlocks", block);
-  };
-
   const createVote = async () => {
-    const hash10 = genHash();
 
     if (!question || !title) return;
     if (!option1 || !option2 || !option3 || !option4) return;
 
-
     const web3 = new Web3(
       new Web3.providers.HttpProvider("http://127.0.0.1:8545")
     );
 
     const latestBlockNumber = await web3.eth.getBlockNumber();
-    // const block = await web3.eth.getBlock(latestBlockNumber);
-
     const tx = await web3.eth.getTransactionFromBlock(latestBlockNumber, 0);
-    // const transaction = await web3.eth.getTransaction(tx.hash);
-
-    // console.log(transaction);
 
 
     await contractFunctions.createVoting(
@@ -159,6 +135,8 @@ const VoteCreatePage = () => {
       address,
       guestAddress
     );
+
+    setInBaseAddress([...inBaseAddress, guestAddress])
   };
 
   return (

@@ -39,7 +39,11 @@ const Container = styled.nav`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 24px;
+  gap: 32px;
+
+  p{
+    font-weight: 300;
+  }
 `;
 
 const MetaMaskLinlk = styled.a`
