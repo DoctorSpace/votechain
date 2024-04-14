@@ -1,8 +1,23 @@
-# Sample Hardhat Project
+# Настройка приложения для голосования
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+1 Настройка Blockchain
 
-Try running some of the following tasks:
+
+1.1.1 Установка библиотеки hardhat
+```
+npm install --save-dev hardhat
+```
+1.2 Инициализация проекта
+```
+npm init
+npx hardhat init
+```
+1.3 Запуск компиляции
+```
+npx hardhat compile
+```
+
+
 
 ```shell
 npx hardhat help
@@ -11,4 +26,8 @@ REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat ignition deploy ./ignition/modules/Lock.js
 ```
+
+
+
+
 # votechain
