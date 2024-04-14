@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Web3 from "web3";
 import PrimaryInput from "../UI/PrimaryInput/PrimaryInput";
 import { genHash } from "../../utils/genHash";
 import { useSelector } from "react-redux";
 import PrimaryButton from "../UI/PrimaryButton/PrimaryButton";
 import { contractFunctions } from "../../utils/contractFunctions";
 import Notification from "../UI/Notification/Notification";
-
 
 const VotePlace = styled.div`
   margin-top: 80px;
@@ -96,24 +94,13 @@ const VoteCreatePage = () => {
     getBaseAddress();
   }, [contract]);
 
-
   const createVote = async () => {
-
     if (!question || !title) return;
     if (!option1 || !option2 || !option3 || !option4) return;
-
-    const web3 = new Web3(
-      new Web3.providers.HttpProvider("http://127.0.0.1:8545")
-    );
-
-    const latestBlockNumber = await web3.eth.getBlockNumber();
-    const tx = await web3.eth.getTransactionFromBlock(latestBlockNumber, 0);
-
 
     await contractFunctions.createVoting(
       contract,
       address,
-      // tx.hash,
       genHash(),
       title,
       question,
@@ -127,7 +114,6 @@ const VoteCreatePage = () => {
     setTimeout(() => {
       setIsNotification(false);
     }, 2000);
-
   };
 
   const addAdress = async () => {
@@ -137,7 +123,7 @@ const VoteCreatePage = () => {
       guestAddress
     );
 
-    setInBaseAddress([...inBaseAddress, guestAddress])
+    setInBaseAddress([...inBaseAddress, guestAddress]);
   };
 
   return (

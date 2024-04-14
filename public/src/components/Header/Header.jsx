@@ -41,7 +41,7 @@ const Container = styled.nav`
   align-items: center;
   gap: 32px;
 
-  p{
+  p {
     font-weight: 300;
   }
 `;
@@ -88,13 +88,8 @@ const UserBlock = styled.div`
   }
 `;
 
-const BalanceBlock = styled.p`
-  font-size: 12px;
-`;
-
 const Header = () => {
   const [currentAccount, setCurrentAccount] = useState("");
-  const [balance, setBalance] = useState(0);
   const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState(false);
   const [isNotification, setIsNotification] = useState(false);
 
@@ -135,26 +130,13 @@ const Header = () => {
           setCurrentAccount(accounts[0]);
           console.log(accounts[0]);
           dispatch(setAddressData(accounts[0]));
-          getBalance(accounts[0]);
         } else {
           setCurrentAccount("");
           dispatch(setAddressData(""));
-          setBalance(0);
         }
       } catch (error) {
         console.error(error);
       }
-    }
-  };
-
-  const getBalance = async (account) => {
-    try {
-      const web3 = new Web3(window.ethereum);
-      const weiBalance = await web3.eth.getBalance(account);
-      const ethBalance = web3.utils.fromWei(weiBalance, "ether");
-      setBalance(parseFloat(ethBalance));
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -198,11 +180,6 @@ const Header = () => {
               {shortening(currentAccount)}
             </AddressBlock>
           </UserBlock>
-
-          {/* <AddressBlock onClick={copyAddress}>
-            {shortening(currentAccount)}
-          </AddressBlock>
-          <BalanceBlock>{balance} ETH</BalanceBlock> */}
         </Container>
       ) : (
         <MetaMaskLinlk href="https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?Hl=ru&pli=1">

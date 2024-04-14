@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import PrimaryButton from "../UI/PrimaryButton/PrimaryButton";
 import NotActiveButton from "../UI/NotActiveButton/NotActiveButton";
 import Notification from "../UI/Notification/Notification";
+import { Link } from "react-router-dom";
 
 const VoteWraper = styled.div`
   margin-top: 100px;
@@ -170,13 +171,15 @@ const VotePage = () => {
 
         <ButtonWraper>
           {iswhitelist ? (
-            <PrimaryButton
-              width={"220px"}
-              height={"50px"}
-              onClick={handleButtonClick}
-            >
-              Проголосовать
-            </PrimaryButton>
+            <Link to="/">
+              <PrimaryButton
+                width={"220px"}
+                height={"50px"}
+                onClick={handleButtonClick}
+              >
+                Проголосовать
+              </PrimaryButton>
+            </Link>
           ) : (
             <NotActiveButton width={"220px"} height={"50px"}>
               {" "}

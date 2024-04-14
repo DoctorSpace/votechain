@@ -14,7 +14,7 @@ const QuestionWraper = styled.div`
   border-radius: 16px;
   width: 100%;
   min-width: 276px;
-  height: 380px;
+  height: 280px;
   box-shadow: 5px 2px 18px rgba(0, 0, 0, 0.08);
   position: relative;
 `;
@@ -46,10 +46,6 @@ const SecondQuestionPlace = styled.h4`
   font-weight: 300;
 `;
 
-const CountsPlace = styled.p`
-  padding: 0 20px;
-  font-weight: 300;
-`;
 
 const ButtonPlace = styled.div`
   position: absolute;
@@ -60,10 +56,9 @@ const ButtonPlace = styled.div`
 const Question = ({ data }) => {
   const [title, setTitle] = useState("Title");
   const [question, setQuestion] = useState("Question");
-  const [counts, setCounts] = useState("");
   const [isNotification, setIsNotification] = useState(false);
   const [isActive, setIsActive] = useState(false);
-  const [blockNumber, setBlockNumber] = useState('');
+  const [blockNumber, setBlockNumber] = useState("");
 
   const contract = useSelector((state) => state.contract.data);
 
@@ -71,8 +66,6 @@ const Question = ({ data }) => {
     navigator.clipboard
       .writeText(blockNumber.hash)
       .then(() => {
-        console.log("Значение скопировано в буфер обмена:", blockNumber.hash);
-
         setIsNotification(true);
         setTimeout(() => {
           setIsNotification(false);
@@ -95,17 +88,11 @@ const Question = ({ data }) => {
     }
   };
 
-
   useEffect(() => {
     const getVoteInfo = async () => {
       if (!data) return;
       setTitle(await contractFunctions.getTitle(contract, data));
       setQuestion(await contractFunctions.getQuestion(contract, data));
-    };
-
-    const getCounts = async () => {
-      if (!data) return;
-      setCounts(await contractFunctions.getCounts(contract, data));
     };
 
     const getBlockNumber = async () => {
@@ -121,7 +108,6 @@ const Question = ({ data }) => {
 
     gestIsActive();
     getVoteInfo();
-    getCounts();
     getBlockNumber();
   }, []);
 
@@ -132,11 +118,6 @@ const Question = ({ data }) => {
       </IdPlace>
       <MainQuestionPlace>{title}</MainQuestionPlace>
       <SecondQuestionPlace>{question}</SecondQuestionPlace>
-      <CountsPlace>
-        {counts
-          ? `${counts[0]} - ${counts[1]} - ${counts[2]} - ${counts[3]}`
-          : ""}
-      </CountsPlace>
       <ButtonPlace>
         {!isActive ? (
           <Link to={`/vote/${data}`}>

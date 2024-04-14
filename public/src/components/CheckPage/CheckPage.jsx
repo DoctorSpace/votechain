@@ -7,7 +7,6 @@ import PrimaryButton from "../UI/PrimaryButton/PrimaryButton";
 
 const Wraper = styled.div`
   margin-top: 100px;
-  width: 100wh;
 
   display: flex;
   flex-direction: column;
@@ -86,7 +85,6 @@ const BlockEmpty = styled.div`
   flex-direction: column;
   position: relative;
 
-
   padding: 20px;
 
   width: 400px;
@@ -162,7 +160,7 @@ const CheckPage = () => {
       const transaction = await web3.eth.getTransactionFromBlock(hash, 0);
       setBlockNumber(Number(transaction.blockNumber));
     } catch (err) {
-      setEmptyBlock(true)
+      setEmptyBlock(true);
       console.error(err);
     }
   };
@@ -170,7 +168,7 @@ const CheckPage = () => {
   const resetData = async () => {
     setHash("");
     setBlockNumber(null);
-    setEmptyBlock(false)
+    setEmptyBlock(false);
   };
 
   const filteredBlocks = blocks.filter(
@@ -189,9 +187,6 @@ const CheckPage = () => {
           blockNumber++
         ) {
           const block = await web3.eth.getBlock(blockNumber);
-
-          console.log(block);
-
           const timestamp = Number(block.timestamp);
           const date = new Date(timestamp * 1000);
           const formattedDate = date.toLocaleString();
@@ -202,17 +197,17 @@ const CheckPage = () => {
               parentHash: "INIT",
               receiptsRoot: block.receiptsRoot,
               stateRoot: block.stateRoot,
-              hash: block.hash,
+              hash: shortening(block.hash),
               timestamp: formattedDate,
-              transactions: "0",
+              transactions: "INIT",
             });
           } else {
             blocksData.push({
               number: Number(block.number),
-              hash: block.hash,
-              parentHash: block.parentHash,
+              hash: shortening(block.hash),
+              parentHash: shortening(block.parentHash),
               timestamp: formattedDate,
-              transactions: String(block.transactions),
+              transactions: shortening(String(block.transactions)),
             });
           }
         }
@@ -259,11 +254,10 @@ const CheckPage = () => {
                     <BlockTimes>{block.timestamp}</BlockTimes>
                     <BlockInfo>
                       <p>
-                        Block hash:{" "}
-                        <BlockSpan>{shortening(block.hash)}</BlockSpan>
+                        Block hash: <BlockSpan>{block.hash}</BlockSpan>
                       </p>
-                      <p>Transactions: {shortening(block.transactions)}</p>
-                      <p>parentHash: {shortening(block.parentHash)}</p>
+                      <p>Transactions: {block.transactions}</p>
+                      <p>parentHash: {block.parentHash}</p>
                     </BlockInfo>
                   </Block>
                 ))
@@ -274,11 +268,10 @@ const CheckPage = () => {
                     <BlockTimes>{block.timestamp}</BlockTimes>
                     <BlockInfo>
                       <p>
-                        Block hash:{" "}
-                        <BlockSpan>{shortening(block.hash)}</BlockSpan>
+                        Block hash: <BlockSpan>{block.hash}</BlockSpan>
                       </p>
-                      <p>Transactions: {shortening(block.transactions)}</p>
-                      <p>ParentHash: {shortening(block.parentHash)}</p>
+                      <p>Transactions: {block.transactions}</p>
+                      <p>ParentHash: {block.parentHash}</p>
                     </BlockInfo>
                   </Block>
                 ))

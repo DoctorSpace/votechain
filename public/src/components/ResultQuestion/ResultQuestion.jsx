@@ -3,67 +3,52 @@ import styled from "styled-components";
 import { contractFunctions } from "../../utils/contractFunctions";
 import { useSelector } from "react-redux";
 
-const PostWraper = styled.div`
+
+const Block = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-
-  background: var(--background);
-  border-radius: 16px;
-
-  min-height: 140px;
   padding: 20px;
   box-shadow: 5px 2px 18px rgba(0, 0, 0, 0.08);
-  position: relative;
+  border-radius: 6px;
 `;
 
-const AnsverBlock = styled.div`
+const BlockMaxCount = styled.p`
+  text-align: center;
+`;
+
+const BlockQuestions = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
 `;
 
-const Ansver = styled.div`
+const Question = styled.div`
   display: flex;
+  padding: 4px 10px;
   justify-content: space-between;
-  align-items: center;
-
-  width: 100%;
-  background-color: ${(props) => (props.isMostVoted ? "#58E15D" : "#eee")};
-  border-radius: 6px;
-
-  height: ${(props) => props.height || "auto"};
+  border: 1px solid var(--main);
+  border-radius: 4px;
+  background-color: ${(props) => (props.isMostVoted ? "#58E15D" : "#ffffff")};
 
   p {
-    padding: 6px 10px;
+    font-weight: 300;
+  }
+
+  span {
+    color: #888;
     font-weight: 300;
   }
 `;
 
-const CloseBtn = styled.button`
-  cursor: pointer;
-  width: 32px;
-  height: 32px;
-  border-radius: 100%;
-  border: 0;
-  background-color: var(--main);
-  color: var(--background);
-  position: absolute;
-  right: 20px;
-  top: 10px;
-
-  &:hover {
-    background-color: var(--main-activ);
-  }
-`;
-
-const ProfilePost = ({ data, isClose }) => {
+const ResultQuestion = ({ data }) => {
   const [question, setQuestion] = useState("Question");
   const [option1, setOption1] = useState("Option1");
   const [option2, setOption2] = useState("Option2");
   const [option3, setOption3] = useState("Option3");
   const [option4, setOption4] = useState("Option4");
   const [counts, setCounts] = useState("");
+  const [maxCounts, setMaxCounts] = useState(0);
 
   const [ansver1, setAnsver1] = useState(false);
   const [ansver2, setAnsver2] = useState(false);
@@ -71,9 +56,15 @@ const ProfilePost = ({ data, isClose }) => {
   const [ansver4, setAnsver4] = useState(false);
 
   const contract = useSelector((state) => state.contract.data);
-  const address = useSelector((state) => state.address.data);
 
-  const countMax = () => {
+  const countMax = async () => {
+    setMaxCounts(
+      Number(counts[0]) +
+        Number(counts[1]) +
+        Number(counts[2]) +
+        Number(counts[3])
+    );
+
     let maxX = Math.max(
       Number(counts[0]),
       Number(counts[1]),
@@ -97,10 +88,6 @@ const ProfilePost = ({ data, isClose }) => {
     }
   };
 
-  const closeVote = async () => {
-    await contractFunctions.finishVoting(contract, address, data);
-  };
-
   useEffect(() => {
     const getVoteInfo = async () => {
       if (!data) return;
@@ -118,39 +105,49 @@ const ProfilePost = ({ data, isClose }) => {
     };
 
     getVoteInfo();
-  }, [contract, address]);
+  }, [contract]);
 
   useEffect(() => {
-    if (isClose) {
-      countMax();
-    }
+    countMax();
   }, [counts]);
 
   return (
-    <PostWraper>
-      <h4>{question}</h4>
-      <AnsverBlock>
-        <Ansver isMostVoted={ansver1}>
-          <p>{option1}</p>
-          <p>{`${counts[0]}`}</p>
-        </Ansver>
-        <Ansver isMostVoted={ansver2}>
-          <p>{option2}</p>
-          <p>{`${counts[1]}`}</p>
-        </Ansver>
-        <Ansver isMostVoted={ansver3}>
-          <p>{option3}</p>
-          <p>{`${counts[2]}`}</p>
-        </Ansver>
-        <Ansver isMostVoted={ansver4}>
-          <p>{option4}</p>
-          <p>{`${counts[3]}`}</p>
-        </Ansver>
-      </AnsverBlock>
+    <Block>
+      <p>{question}</p>
+      <BlockQuestions>
+        <Question isMostVoted={ansver1}>
+          <p>
+            {option1}
+            <span> - {Number(counts[0])}</span>
+          </p>
 
-      {isClose ? null : <CloseBtn onClick={closeVote}>X</CloseBtn>}
-    </PostWraper>
+          <p>{maxCounts === 0 ? 0 : ((Number(counts[0]) / maxCounts) * 100).toFixed(1)}%</p>
+        </Question>
+        <Question isMostVoted={ansver2}>
+          <p>
+            {option2}
+            <span> - {Number(counts[1])}</span>
+          </p>
+          <p>{maxCounts === 0 ? 0 : ((Number(counts[1]) / maxCounts) * 100).toFixed(1)}%</p>
+        </Question>
+        <Question isMostVoted={ansver3}>
+          <p>
+            {option3}
+            <span> - {Number(counts[2])}</span>
+          </p>
+          <p>{maxCounts === 0 ? 0 : ((Number(counts[2]) / maxCounts) * 100).toFixed(1)}%</p>
+        </Question>
+        <Question isMostVoted={ansver4}>
+          <p>
+            {option4}
+            <span> - {Number(counts[3])}</span>
+          </p>
+          <p>{maxCounts === 0 ? 0 : ((Number(counts[3]) / maxCounts) * 100).toFixed(1)}%</p>
+        </Question>
+      </BlockQuestions>
+      <BlockMaxCount>Проголосовало: {maxCounts}</BlockMaxCount>
+    </Block>
   );
 };
 
-export default ProfilePost;
+export default ResultQuestion;

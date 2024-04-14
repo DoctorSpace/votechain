@@ -1,12 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit'
-
+import { createSlice } from "@reduxjs/toolkit";
 
 const addressSlice = createSlice({
-  name: 'address',
+  name: "address",
   initialState: {
     data: null,
     loading: false,
-    error: null
+    error: null,
   },
   reducers: {
     setAddressLoading: (state, action) => {
@@ -17,11 +16,11 @@ const addressSlice = createSlice({
     },
     setAddressError: (state, action) => {
       state.error = action.payload;
-    }
-  }
+    },
+  },
 });
 
+export const { setAddressLoading, setAddressData, setAddressError } =
+  addressSlice.actions;
 
-export const { setAddressLoading, setAddressData, setAddressError } = addressSlice.actions
-
-export default addressSlice.reducer
+export default addressSlice.reducer;

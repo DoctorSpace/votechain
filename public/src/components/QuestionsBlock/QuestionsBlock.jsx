@@ -12,6 +12,10 @@ const QuestionsWraper = styled.div`
   margin-bottom: 400px;
 `;
 
+const QuestionsH2 = styled.h2`
+  margin-bottom: 28px;
+`
+
 const QuestionsBlock = () => {
   const [allQuestion, setAllQuestion] = useState([]);
   const contract = useSelector((state) => state.contract.data);
@@ -25,12 +29,15 @@ const QuestionsBlock = () => {
   }, [contract]);
 
   return (
-    <QuestionsWraper>
-      {allQuestion &&
-        allQuestion
-          .reverse()
-          .map((item, index) => <Question data={item} key={index} />)}
-    </QuestionsWraper>
+    <>
+      <QuestionsH2>Голосования</QuestionsH2>
+      <QuestionsWraper>
+        {allQuestion &&
+          allQuestion
+            .reverse()
+            .map((item, index) => <Question data={item} key={index} />)}
+      </QuestionsWraper>
+    </>
   );
 };
 

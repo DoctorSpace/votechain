@@ -4,15 +4,11 @@ import { useSelector } from "react-redux";
 
 const WhitelistAddressBlock = ({ wallet }) => {
   const [address, setAddress] = useState("");
-  const contract = useSelector((state) => state.contract.data)
-
-  // TODO
-  // Проверка если ввели больше одно адресса, добавить больше
+  const contract = useSelector((state) => state.contract.data);
 
   const addWhiteList = async () => {
-    await contractFunctions.addWhitelistAddress(contract, wallet, address)
+    await contractFunctions.addWhitelistAddress(contract, wallet, address);
   };
-
 
   return (
     <div>

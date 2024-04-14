@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { initContractX } from "../../utils/initContractX";
 import { contractFunctions } from "../../utils/contractFunctions";
-
 import { setContactData } from '../../store/features/contractSlice';
 import { useSelector, useDispatch } from "react-redux";
 
