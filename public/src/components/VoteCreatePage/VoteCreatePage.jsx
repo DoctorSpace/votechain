@@ -113,7 +113,8 @@ const VoteCreatePage = () => {
     await contractFunctions.createVoting(
       contract,
       address,
-      tx.hash,
+      // tx.hash,
+      genHash(),
       title,
       question,
       option1,

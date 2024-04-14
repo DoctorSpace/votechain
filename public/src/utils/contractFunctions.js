@@ -42,9 +42,9 @@ export const contractFunctions = {
     }
   },
 
-  finishVoting: async function (contract, wallet, name) {
+  finishVoting: async function (contract, wallet, _id) {
     try {
-      await contract.methods.finishVoting(name).send({ from: wallet });
+      await contract.methods.finishVoting(_id).send({ from: wallet });
       console.log("vote successfully remove!");
     } catch (err) {
       console.error(err);
@@ -73,9 +73,9 @@ export const contractFunctions = {
     }
   },
 
-  getTitle: async function (contract, name) {
+  getTitle: async function (contract, _id) {
     try {
-      const result = await contract.methods.getTitle(name).call();
+      const result = await contract.methods.getTitle(_id).call();
       console.log("Title: ", result);
 
       return result;
@@ -84,9 +84,9 @@ export const contractFunctions = {
     }
   },
 
-  getQuestion: async function (contract, name) {
+  getQuestion: async function (contract, _id) {
     try {
-      const result = await contract.methods.getQuestion(name).call();
+      const result = await contract.methods.getQuestion(_id).call();
       console.log("Question: ", result);
 
       return result;
@@ -95,9 +95,9 @@ export const contractFunctions = {
     }
   },
 
-  getOption1: async function (contract, name) {
+  getOption1: async function (contract, _id) {
     try {
-      const result = await contract.methods.getOption1(name).call();
+      const result = await contract.methods.getOption1(_id).call();
       console.log("Option1: ", result);
 
       return result;
@@ -106,9 +106,9 @@ export const contractFunctions = {
     }
   },
 
-  getOption2: async function (contract, name) {
+  getOption2: async function (contract, _id) {
     try {
-      const result = await contract.methods.getOption2(name).call();
+      const result = await contract.methods.getOption2(_id).call();
       console.log("Option2: ", result);
 
       return result;
@@ -117,9 +117,9 @@ export const contractFunctions = {
     }
   },
 
-  getOption3: async function (contract, name) {
+  getOption3: async function (contract, _id) {
     try {
-      const result = await contract.methods.getOption3(name).call();
+      const result = await contract.methods.getOption3(_id).call();
       console.log("Option3: ", result);
 
       return result;
@@ -128,9 +128,9 @@ export const contractFunctions = {
     }
   },
 
-  getOption4: async function (contract, name) {
+  getOption4: async function (contract, _id) {
     try {
-      const result = await contract.methods.getOption4(name).call();
+      const result = await contract.methods.getOption4(_id).call();
       console.log("Option4: ", result);
 
       return result;
@@ -139,9 +139,9 @@ export const contractFunctions = {
     }
   },
 
-  getCounts: async function (contract, name) {
+  getCounts: async function (contract, _id) {
     try {
-      const result = await contract.methods.getCounts(name).call();
+      const result = await contract.methods.getCounts(_id).call();
       console.log("Counts: ", result);
 
       return result;
@@ -150,9 +150,9 @@ export const contractFunctions = {
     }
   },
 
-  getCreatorAddress: async function (contract, name) {
+  getCreatorAddress: async function (contract, _id) {
     try {
-      const result = await contract.methods.getCreatorAddress(name).call();
+      const result = await contract.methods.getCreatorAddress(_id).call();
       console.log("Result: ", result);
 
       return result;
@@ -161,9 +161,20 @@ export const contractFunctions = {
     }
   },
 
-  isVotingFinished: async function (contract, name) {
+  getBlockNumber: async function (contract, _id) {
     try {
-      const result = await contract.methods.isVotingFinished(name).call();
+      const result = await contract.methods.getBlockNumber(_id).call();
+      console.log("BlockNumber: ", result);
+
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  isVotingFinished: async function (contract, _id) {
+    try {
+      const result = await contract.methods.isVotingFinished(_id).call();
       console.log("Result: ", result);
 
       return result;
@@ -172,9 +183,9 @@ export const contractFunctions = {
     }
   },
 
-  isWhitelist: async function (contract, name) {
+  isWhitelist: async function (contract, _id) {
     try {
-      const result = await contract.methods.whitelist(name).call();
+      const result = await contract.methods.whitelist(_id).call();
       console.log("is White list: ", result);
 
       return result;

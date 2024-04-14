@@ -120,6 +120,25 @@ export const votingABI = [
         type: "string",
       },
     ],
+    name: "getBlockNumber",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_id",
+        type: "string",
+      },
+    ],
     name: "getCounts",
     outputs: [
       {

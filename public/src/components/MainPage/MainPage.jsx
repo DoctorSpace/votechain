@@ -45,22 +45,22 @@ const ButtonWraper = styled.div`
 const MainPage = () => {
   const [hash, setHash] = useState("");
 
-  const weeeeb = async () => {
-    const web3 = new Web3(
-      new Web3.providers.HttpProvider("http://127.0.0.1:8545")
-    );
+  // const weeeeb = async () => {
+  //   const web3 = new Web3(
+  //     new Web3.providers.HttpProvider("http://127.0.0.1:8545")
+  //   );
 
-    // const latestBlockNumber = await web3.eth.getBlockNumber();
-    // const block = await web3.eth.getBlock(latestBlockNumber);
+  //   // const latestBlockNumber = await web3.eth.getBlockNumber();
+  //   // const block = await web3.eth.getBlock(latestBlockNumber);
 
-    // const tx = await web3.eth.getTransactionFromBlock(latestBlockNumber, 0);
-    // console.log("6+++tx", tx);
+  //   // const tx = await web3.eth.getTransactionFromBlock(latestBlockNumber, 0);
+  //   // console.log("6+++tx", tx);
 
-    const transaction = await web3.eth.getTransaction(hash);
+  //   const transaction = await web3.eth.getTransaction(hash);
 
-    console.log("transaction", transaction);
-    // console.log("---latestBlocks", block);
-  };
+  //   console.log("transaction", transaction);
+  //   // console.log("---latestBlocks", block);
+  // };
 
   return (
     <>
@@ -84,7 +84,7 @@ const MainPage = () => {
         <img src={Voting} alt="voting" />
       </MainWraper>
 
-      <div>
+      {/* <div>
         <PrimaryInput
           type="text"
           value={hash}
@@ -92,7 +92,7 @@ const MainPage = () => {
           placeholder="Hash"
         />
         <PrimaryButton onClick={weeeeb}>ssss</PrimaryButton>
-      </div>
+      </div> */}
 
       <QuestionsBlock />
     </>

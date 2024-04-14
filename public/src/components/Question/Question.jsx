@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import Notification from "../UI/Notification/Notification";
 import { shortening } from "../../utils/shortening";
 import NotActiveButton from "../UI/NotActiveButton/NotActiveButton";
+import Web3 from "web3";
 
 const QuestionWraper = styled.div`
   background: var(--background);
@@ -62,14 +63,15 @@ const Question = ({ data }) => {
   const [counts, setCounts] = useState("");
   const [isNotification, setIsNotification] = useState(false);
   const [isActive, setIsActive] = useState(false);
+  const [blockNumber, setBlockNumber] = useState('');
 
   const contract = useSelector((state) => state.contract.data);
 
   const copyAddress = () => {
     navigator.clipboard
-      .writeText(data)
+      .writeText(blockNumber.hash)
       .then(() => {
-        console.log("Значение скопировано в буфер обмена:", data);
+        console.log("Значение скопировано в буфер обмена:", blockNumber.hash);
 
         setIsNotification(true);
         setTimeout(() => {
@@ -80,6 +82,19 @@ const Question = ({ data }) => {
         console.error("Ошибка при копировании в буфер обмена:", error);
       });
   };
+
+  const web3 = new Web3(
+    new Web3.providers.HttpProvider("http://127.0.0.1:8545")
+  );
+
+  const getBlockData = async (NumBlock) => {
+    try {
+      setBlockNumber(await web3.eth.getBlock(NumBlock));
+    } catch (error) {
+      console.error("Ошибка при получении данных блока:", error);
+    }
+  };
+
 
   useEffect(() => {
     const getVoteInfo = async () => {
@@ -93,19 +108,28 @@ const Question = ({ data }) => {
       setCounts(await contractFunctions.getCounts(contract, data));
     };
 
+    const getBlockNumber = async () => {
+      if (!data) return;
+      const NumBlock = await contractFunctions.getBlockNumber(contract, data);
+      getBlockData(Number(NumBlock));
+    };
+
     const gestIsActive = async () => {
       setIsActive(await contractFunctions.isVotingFinished(contract, data));
-      console.log('isActive', isActive);
+      console.log("isNotActive", isActive);
     };
 
     gestIsActive();
     getVoteInfo();
     getCounts();
+    getBlockNumber();
   }, []);
 
   return (
     <QuestionWraper>
-      <IdPlace onClick={copyAddress}>{shortening(data)}</IdPlace>
+      <IdPlace onClick={copyAddress}>
+        {!blockNumber ? shortening(data) : shortening(blockNumber.hash)}
+      </IdPlace>
       <MainQuestionPlace>{title}</MainQuestionPlace>
       <SecondQuestionPlace>{question}</SecondQuestionPlace>
       <CountsPlace>
@@ -120,7 +144,11 @@ const Question = ({ data }) => {
               пройти опрос
             </PrimaryButton>
           </Link>
-        ) : <NotActiveButton width={'240px'} height={'44px'}>опрос завершён</NotActiveButton>}
+        ) : (
+          <NotActiveButton width={"240px"} height={"44px"}>
+            опрос завершён
+          </NotActiveButton>
+        )}
       </ButtonPlace>
 
       {isNotification && <Notification>Скопировано</Notification>}
