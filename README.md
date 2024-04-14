@@ -3,16 +3,16 @@
 
 1 Настройка Hardhat
 
-1.1 Установка библиотеки hardhat
+* Установка библиотеки hardhat
 ```
 npm install --save-dev hardhat
 ```
-1.2 Инициализация проекта
+* Инициализация проекта
 ```
 npm init
 npx hardhat init
 ```
-1.3 Запуск компиляции
+* Запуск компиляции
 ```
 npx hardhat compile
 ```
@@ -27,17 +27,17 @@ npx hardhat compile
 ### Производим Deploy
 
 4 Подключаем Frontend (в папке public)
-4.1 Скопируем ABI (находится в SOLIDITY COMPILER) в файл abi.js
-4.2 Дальше копируем адресс контракта (находится в DEPLOY & RUN TRANSACTIONS) и записываем в initContractX.js
-4.3 Перейти в папку public
+* Скопируем ABI (находится в SOLIDITY COMPILER) в файл abi.js
+* Дальше копируем адресс контракта (находится в DEPLOY & RUN TRANSACTIONS) и записываем в initContractX.js
+* Перейти в папку public
 ```
 cd ./public
 ```
-4.4 Инициализировать проект
+* Инициализировать проект
 ```
 npm i
 ```
-4.5 Запустить 
+* Запустить 
 ```
 npm run start
 ```
